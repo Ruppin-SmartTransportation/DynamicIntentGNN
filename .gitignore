@@ -1,0 +1,8 @@
+*.pt
+__pycache__/
+.env
+.vscode/
+*.log
+*.egg-info/
+checkpoints/
+outputs/
