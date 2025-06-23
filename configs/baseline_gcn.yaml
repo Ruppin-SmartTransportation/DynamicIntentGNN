@@ -1,9 +1,14 @@
 
 dataset:
   path: /home/guy/Projects/Traffic/traffic_data_pt
+  labels_path: /home/guy/Projects/Traffic/Traffic-DSTG-Gen/eda_exports
   batch_size: 32
-  shuffle: true
+  shuffle: false
+  preserve_temporal_order: true
   num_workers: 8
+  train_ratio: 0.8
+  val_ratio: 0.1
+  test_ratio: 0.1
 
 model:
   name: baseline_gcn
@@ -14,4 +19,5 @@ model:
 
 training:
   epochs: 100
-  lr: 0.001
+  lr: 0.0005
+  eval_interval: 1
