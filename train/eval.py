@@ -60,7 +60,7 @@ def evaluate_model(model, dataloader, device, eta_mean, eta_std):
 
     return mae, rmse, mape
 
-def run_evaluation(config_path, model_ckpt_path=None, val_loader=None):
+def run_evaluation(config_path, model_ckpt_path=None, val_loader=None, writer=None, epoch=None):
     config = load_config(config_path)
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -84,6 +84,10 @@ def run_evaluation(config_path, model_ckpt_path=None, val_loader=None):
     if metrics:
         mae, rmse, mape = metrics
         print(f"MAE: {mae:.2f} sec | RMSE: {rmse:.2f} sec | MAPE: {mape:.2f}%")
+        if writer is not None and epoch is not None:
+            writer.add_scalar("MAE/val", mae, epoch)
+            writer.add_scalar("RMSE/val", rmse, epoch)
+            writer.add_scalar("MAPE/val", mape, epoch)
     else:
         print("No valid samples found for evaluation.")
 

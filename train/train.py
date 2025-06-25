@@ -87,7 +87,7 @@ def run_training(config_path):
         
         if (epoch + 1) % config["training"]["eval_interval"] == 0:
             print("Running evaluation...")
-            run_evaluation(config_path, best_model_path, val_loader)
+            run_evaluation(config_path, best_model_path, val_loader, writer, epoch)
             print("Evaluation complete.")
 
     writer.close()
