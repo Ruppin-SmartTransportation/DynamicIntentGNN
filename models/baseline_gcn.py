@@ -4,9 +4,9 @@ import torch.nn.functional as F
 from torch_geometric.nn import GCNConv
 
 class BaselineGCN(nn.Module):
-    def __init__(self, in_channels, hidden_channels, out_channels=1, dropout=0.2):
+    def __init__(self, node_in_channels, hidden_channels, out_channels=1, dropout=0.2):
         super().__init__()
-        self.conv1 = GCNConv(in_channels, hidden_channels)
+        self.conv1 = GCNConv(node_in_channels, hidden_channels)
         self.conv2 = GCNConv(hidden_channels, hidden_channels)
         self.conv3 = GCNConv(hidden_channels, hidden_channels)
         self.conv4 = GCNConv(hidden_channels, hidden_channels)
