@@ -1,48 +1,71 @@
-# ✅ DynamicIntentGNN: ETA Prediction Model – To-Do List
 
-## 🔹 1. Evaluation Pipeline
-- [ ] Create `evaluate.py`
-  - [ ] Load trained model + `.pt` graph files
-  - [ ] Load ETA normalization params from `labels_feature_summary.csv`
-  - [ ] Apply **inverse normalization** to predictions
-  - [ ] Compute:
-    - [ ] **MAE** (Mean Absolute Error)
-    - [ ] **RMSE** (Root Mean Squared Error)
-    - [ ] **MAPE** (Mean Absolute Percentage Error)
-  - [ ] Optionally: Save predictions + errors to CSV
+# Thesis Model and Research Plan
 
-## 🔹 2. Live Metrics in Training
-- [ ] Load ETA `mean` and `std` from file (already done in EDA)
-- [ ] In `train.py`, log:
-  - [ ] Inverse-normalized **MAE / RMSE** after each epoch
-  - [ ] Target is:
-    - MAE ≈ 300 sec → normalized MAE ≤ 0.116
-    - MSE loss target ≈ 0.013
+## 🎓 Thesis Title (Proposed)
 
-## 🔹 3. Checkpointing
-- [ ] In `train.py`, add:
-  - [ ] Save best model (lowest val loss)
-  - [ ] Save latest model (resume support)
-- [ ] Add resume logic:
-  - [ ] Detect if checkpoint exists
-  - [ ] Load model, optimizer, and epoch
-  - [ ] Continue training from saved point
+**Intent-Aware Dynamic Spatio-Temporal Graph Neural Networks for Vehicle-Level Traffic Forecasting**
 
-## 🔹 4. ETA Normalization
-- [x] Normalize ETA using z-score in dataset creation
-- [ ] In **evaluation & logging**, convert back to seconds:
-```python
-def inverse_normalize(y, mean, std):
-    return y * std + mean
-```
+---
 
-## 🔹 5. Dataset Preprocessing
-- [ ] Load ETA `mean` and `std` from `labels_feature_summary.csv`
-- [ ] In `convert_snapshot()`, filter labels with `|z| > 3`
-- [ ] Only include vehicles with ETA in normal range
-- [ ] Log number of filtered vehicles per snapshot
+## 🔬 Research Contributions
 
-## 🔹 6. Nice-to-Have Add-ons
-- [ ] Add CLI argument to select train/eval mode
-- [ ] Option to dump per-vehicle prediction error
-- [ ] Visualize prediction vs. actual ETA distributions
+1. **Dynamic Vehicle-Junction Graph Representation**  
+   We introduce a novel graph-based representation of urban traffic in which both *vehicles* and *junctions* are modeled as graph nodes. This enables fine-grained, vehicle-level forecasting and allows the graph to dynamically evolve as vehicles move.
+
+2. **User Intent Integration**  
+   Unlike previous work that treats traffic as an aggregate process, we incorporate *user intent* in the form of GPS-based source-destination requests. This allows our model to predict not just current traffic but anticipated future congestion along users’ likely paths.
+
+3. **Path-Aware Spatio-Temporal Modeling**  
+   We propose a spatio-temporal graph architecture that conditions predictions on the inferred future trajectories of vehicles. This enables the model to capture both real-time state and projected traffic loads at future timestamps.
+
+4. **Graph-Based Dataset for Intent-Aware Forecasting**  
+   We design and release a new dataset composed of dynamic graph snapshots that capture both vehicle mobility and user destination information, enabling supervised learning of future traffic conditions along likely paths.
+
+5. **Comprehensive Benchmarking**  
+   We compare our model with several established spatio-temporal GNNs (DCRNN, ASTGCN, TGAT, etc.) and show that our intent-aware architecture significantly improves accuracy in predicting future ETA and congestion levels under realistic simulated traffic.
+
+---
+
+## 🧠 Custom Model: IA-STGNN
+
+**Intent-Aware Spatio-Temporal Graph Neural Network (IA-STGNN)**
+
+### Architecture Components
+
+| Component | Description |
+|----------|-------------|
+| **Input Graph** | Nodes = {vehicles, junctions}, Edges = road segments + inferred movement paths |
+| **Node Features** | Time-aware vehicle features (speed, heading, occupancy), junction state (load, signal status, etc.) |
+| **Edge Features** | Distance, time delta, relative motion, path confidence (based on intent) |
+| **Intent Encoder** | Encodes GPS source-destination request into a "trajectory likelihood" embedding |
+| **Graph Encoder (GCN or GAT)** | Encodes each graph snapshot spatially |
+| **Temporal Module (LSTM / GRU)** | Captures sequence of graph snapshots over time |
+| **Trajectory Conditioning** | Conditions prediction on future path embedding (from Intent Encoder) |
+| **Output** | ETA or congestion level at future time t along the path or next node(s) |
+
+---
+
+## 🏆 Models to Benchmark
+
+- DCRNN
+- ASTGCN
+- TGAT
+- GAT + LSTM
+- ST-GCN
+
+---
+
+## 🚀 Action Plan
+
+1. Write Architecture Section of Thesis
+2. Sketch Model Block Diagram
+3. Implement IA-STGNN
+4. Prepare Baseline Comparison Framework
+5. Write Final Contributions Section
+
+
+Start writing the Proposed Model section of your thesis (in scientific style)?
+
+Help define the model code plan (e.g. model.py layout for IA-STGNN)?
+
+Create a block diagram showing the model pipeline?
